@@ -42,7 +42,7 @@ earth.position.set(20,20, 0)
 // const jubitar_mesh = new THREE.MeshStandardMaterial({Map:})
 
 
-//Scende camer renderer
+//Scene camera renderer
 
 const scene = new  THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
@@ -50,10 +50,6 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth,window.innerHeight);
 document.body.appendChild(renderer.domElement)
 camera.position.z = 30
-const controls = new FlyControls(camera,renderer.domElement)
- controls.rollSpeed = Math.PI / 24;
-  controls.autoForward = false;
-  controls.dragToLook = true;
 const light = new THREE.AmbientLight({color:0xffffff})
 
 // 
@@ -80,7 +76,7 @@ function stars(){
 
 
 }
-
+const controls = new OrbitControls(camera,renderer.domElement)
 
 Array(900).fill().forEach(stars)
 
