@@ -1,68 +1,62 @@
 import * as THREE from "three" 
-import { FlyControls, OrbitControls } from "three/examples/jsm/Addons.js";
+import {  OrbitControls } from "three/examples/jsm/Addons.js";
+import { WoodNodeMaterial } from "three/examples/jsm/materials/WoodNodeMaterial.js";
 
 
-
-
-window.console.debug("Hello")
 // texture 
-const textures ={
-  earth : "/8k_earth.jpg",
-  moon : "/8k_moon.jpg",
-  sun :"/8k_sun.jpg",
-  space:"/space.jpg",
-  star :"/8k_stars.jpg",
-  earth_normal_map :"./8k_earth_normal_map.tif",
+const texture_assets = {
+  sun: "/8k_sun.jpg",
+  mercury: "/8k_mercury.jpg",
+  venus: "/4k_venus.jpg",
+  earth: "/8k_earth.jpg",
+  mars: "/8k_mars.jpg",
+  jupiter: "./8k_jupiter.jpg",
+  saturn: "./8k_saturn.jpg",
+  uranus: "./8k_uranus.jpg",
+  moon: "/8k_moon.jpg",
+  space: "/space.jpg",
+  star: "/8k_stars.jpg",
+};
+
+
+function initScene() {
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+  camera.position.z = 100;
+  const light = new THREE.AmbientLight({ color: 0xffffff });
+  scene.add(light);
+  return [scene,camera,renderer];
 }
 
-const bac = new THREE.TextureLoader().load(textures.star)
-const moon_texture = new THREE.TextureLoader().load(textures.moon)
-const earth_texture = new THREE.TextureLoader().load(textures.earth)
-const sun_texture = new THREE.TextureLoader().load(textures.sun)
-const earth_normal_texture = new THREE.TextureLoader().load(textures.earth_normal_map)
+const [scene,camera,renderer] = [...initScene()]
+scene.background= new THREE.TextureLoader().load(texture_assets.space);
 
-///
-const moon_geo  = new THREE.SphereGeometry(3,100,100)
-const moon_mesh = new THREE.MeshStandardMaterial({map:moon_texture})
-const moon = new THREE.Mesh(moon_geo,moon_mesh);
+let mesh ={}
+for(const property  in texture_assets){
+  mesh[property]= new THREE.MeshStandardMaterial({
+                                 map: new THREE.TextureLoader().load(texture_assets[property])
+                            })
+}
 
-const sun_geo  = new THREE.SphereGeometry(15,100,100)
-const sun_mesh = new THREE.MeshStandardMaterial({map:sun_texture})
-const sun = new THREE.Mesh(sun_geo,sun_mesh);
-sun.position.set(-300,-20, 0)
+const geomety_entity = {
+  sun: new THREE.SphereGeometry(15, 100, 100),
+  mercury: new THREE.SphereGeometry(2, 100, 100),
+  venus: new THREE.SphereGeometry(2.5, 100, 100),
+  moon: new THREE.SphereGeometry(1, 100, 100),
+  earth: new THREE.SphereGeometry(5, 100, 100),
+  mars: new THREE.SphereGeometry(4.5, 100, 100),
+  jupiter: new THREE.SphereGeometry(9, 100, 100),
+  saturn: new THREE.SphereGeometry(7, 100, 100),
+};
 
-const earth_geo  = new THREE.SphereGeometry(5,100,100)
-const earth_mesh = new THREE.MeshStandardMaterial({map:earth_texture,normalMap:earth_normal_texture})
-const earth = new THREE.Mesh(earth_geo,earth_mesh);
-earth.position.set(20,20, 0)
-
-///
-
-// const jubitar_geo = new THREE.SphereGeometry(9,100,100)
-// const jubitar_mesh = new THREE.MeshStandardMaterial({Map:})
-
-
-//Scene camera renderer
-
-const scene = new  THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth,window.innerHeight);
-document.body.appendChild(renderer.domElement)
-camera.position.z = 30
-const light = new THREE.AmbientLight({color:0xffffff})
-
-// 
-
-
-//
-
-
-
-
-
-scene.background = bac;
-scene.add(moon,sun, earth,light)
 
 function stars(){
 
@@ -76,9 +70,29 @@ function stars(){
 
 
 }
+
+
+const entity = {}
+
+let [x,y,z] = [10,-1,0];
+
+for(const key in geomety_entity){
+
+  entity[key]=(new THREE.Mesh(geomety_entity[key],mesh[key]));
+  entity[key].position.set(x,y,z);
+
+  x = (Math.abs(x) + 20)*y;
+  
+  
+  scene.add( entity[key]);
+}
+
+
+
+
 const controls = new OrbitControls(camera,renderer.domElement)
 
-Array(900).fill().forEach(stars)
+//Array(900).fill().forEach(stars)
 
 function animate() {
 requestAnimationFrame(animate)
