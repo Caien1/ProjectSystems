@@ -60,11 +60,11 @@ const geomety_entity = {
 
 function stars(){
 
-  const star_geo =new THREE.SphereGeometry(.25,25,25,);
+  const star_geo =new THREE.SphereGeometry(.15,100,100,);
   const star_mesh = new THREE.MeshStandardMaterial({color:0xffffff}) 
   const star = new THREE.Mesh(star_geo,star_mesh);
 
-  const [x,y,z] = Array(3).fill().map(()=> THREE.MathUtils.randFloatSpread(100));
+  const [x,y,z] = Array(3).fill().map(()=> THREE.MathUtils.randFloatSpread(200));
   star.position.set(x,y,z)
   scene.add(star)
 
@@ -86,16 +86,23 @@ for(const key in geomety_entity){
   
   scene.add( entity[key]);
 }
-
+console.log(entity)
 
 
 
 const controls = new OrbitControls(camera,renderer.domElement)
 
-//Array(900).fill().forEach(stars)
+Array(900).fill().forEach(stars)
 
 function animate() {
 requestAnimationFrame(animate)
+
+entity["sun"].rotation.y += 0.003;
+
+
+  
+  
+
 
 
 controls.update()
