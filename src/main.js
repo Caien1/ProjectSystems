@@ -1,21 +1,21 @@
 import * as THREE from "three" 
 import {  OrbitControls } from "three/examples/jsm/Addons.js";
-import { WoodNodeMaterial } from "three/examples/jsm/materials/WoodNodeMaterial.js";
 
 
 // texture 
 const texture_assets = {
-  sun: "/8k_sun.jpg",
-  mercury: "/8k_mercury.jpg",
-  venus: "/4k_venus.jpg",
-  earth: "/8k_earth.jpg",
-  mars: "/8k_mars.jpg",
-  jupiter: "./8k_jupiter.jpg",
-  saturn: "./8k_saturn.jpg",
-  uranus: "./8k_uranus.jpg",
-  moon: "/8k_moon.jpg",
+  sun: "/compressed/8k_sun.jpg",
+  mercury: "/compressed/8k_mercury.jpg",
+  venus: "/compressed/4k_venus.jpg",
+  earth: "/compressed/8k_earth.jpg",
+  mars: "/compressed/8k_mars.jpg",
+  jupiter: "/compressed/8k_jupiter.jpg",
+  saturn: "/compressed/8k_saturn.jpg",
+  uranus: "/compressed/2k_uranus.jpg",
+  neptune: "compressed/4k_neptune.jpg",
+  moon: "/compressed/8k_moon.jpg",
   space: "/space.jpg",
-  star: "/8k_stars.jpg",
+  star: "/compressed/8k_stars.jpg",
 };
 
 
@@ -32,6 +32,7 @@ function initScene() {
   document.body.appendChild(renderer.domElement);
   camera.position.z = 100;
   const light = new THREE.AmbientLight({ color: 0xffffff });
+    const point = new THREE.PointLight()
   scene.add(light);
   return [scene,camera,renderer];
 }
@@ -55,6 +56,8 @@ const geomety_entity = {
   mars: new THREE.SphereGeometry(4.5, 100, 100),
   jupiter: new THREE.SphereGeometry(9, 100, 100),
   saturn: new THREE.SphereGeometry(7, 100, 100),
+  uranus: new THREE.SphereGeometry(6,100,100),
+  neptune:new THREE.SphereGeometry(6,100,100)
 };
 
 
@@ -86,7 +89,6 @@ for(const key in geomety_entity){
   
   scene.add( entity[key]);
 }
-console.log(entity)
 
 
 
@@ -98,15 +100,7 @@ function animate() {
 requestAnimationFrame(animate)
 
 entity["sun"].rotation.y += 0.003;
-
-
-  
-  
-
-
-
 controls.update()
-
 renderer.render(scene,camera)
   
 }
