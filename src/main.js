@@ -77,7 +77,7 @@ function stars(){
 
 const entity = {}
 
-let [x,y,z] = [10,-1,0];
+let [x,y,z] = [10,-2,0];
 
 for(const key in geomety_entity){
 
