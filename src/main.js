@@ -4,7 +4,7 @@ import {  OrbitControls } from "three/examples/jsm/Addons.js";
 
 // texture 
 const texture_assets = {
-  sun: "/compressed/image.png",
+  sun: "/compressed/8k_sun.png",
   mercury: "/compressed/8k_mercury.jpg",
   venus: "/compressed/4k_venus.jpg",
   earth: "/compressed/8k_earth.jpg",
